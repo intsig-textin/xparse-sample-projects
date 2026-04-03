@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/llm-proxy/:path*",
+      "destination": "http://121.43.195.157:8080/:path*"
+    },
+    {
+      "source": "/textin-img/:path*",
+      "destination": "https://textin-api-pre.intsig.com/:path*"
+    }
+  ]
+}

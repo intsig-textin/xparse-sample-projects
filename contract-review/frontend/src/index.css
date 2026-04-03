@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: #f8fafc;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5 { font-family: 'Poppins', sans-serif; }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+}
+
+@layer components {
+  /* Drop zone */
+  .drop-zone {
+    @apply border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center cursor-pointer transition-all duration-300;
+  }
+  .drop-zone:hover,
+  .drop-zone.drag-over {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+
+  /* Tab button */
+  .tab-btn {
+    @apply relative px-4 py-2.5 text-sm font-medium text-slate-500 cursor-pointer transition-colors duration-200;
+  }
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.2s ease;
+  }
+  .tab-btn.active {
+    color: #2563eb;
+    font-weight: 600;
+  }
+  .tab-btn.active::after {
+    background: #2563eb;
+  }
+
+  /* Issue card */
+  .issue-card {
+    @apply cursor-pointer transition-all duration-200;
+  }
+  .issue-card:hover {
+    transform: translateX(2px);
+    background: rgba(239, 246, 255, 0.7);
+  }
+
+  /* Section collapse animation */
+  .section-body {
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  .section-body.open {
+    max-height: 5000px;
+    opacity: 1;
+  }
+  .section-body.closed {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  /* Step connector */
+  .step-connector {
+    flex: 1;
+    height: 2px;
+    background: #e2e8f0;
+    transition: background 0.4s ease;
+    margin-top: -20px;
+  }
+  .step-connector.done {
+    background: #2563eb;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in-up {
+    animation: fadeInUp 0.4s ease forwards;
+  }
+  .fade-in-up-delay {
+    opacity: 0;
+    animation: fadeInUp 0.4s ease 0.1s forwards;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .spinner {
+    animation: spin 0.75s linear infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
+  }
+  .pulse-dot {
+    animation: pulse-dot 1.4s ease-in-out infinite;
+  }
+
+  @keyframes progress-fill {
+    from { width: 0%; }
+  }
+  .progress-bar-animate {
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Markdown */
+.markdown-body h1 { font-size: 1.4rem; font-weight: 700; color: #1e3a8a; margin: 1.25rem 0 0.7rem; font-family: 'Poppins', sans-serif; }
+.markdown-body h2 { font-size: 1.2rem; font-weight: 600; color: #1e3a8a; margin: 1rem 0 0.5rem; font-family: 'Poppins', sans-serif; }
+.markdown-body h3 { font-size: 1.05rem; font-weight: 600; color: #334155; margin: 0.9rem 0 0.4rem; font-family: 'Poppins', sans-serif; }
+.markdown-body p  { color: #475569; line-height: 1.8; margin-bottom: 0.7rem; font-size: 0.875rem; }
+.markdown-body table { width: 100%; border-collapse: collapse; margin: 0.9rem 0; font-size: 0.8rem; }
+.markdown-body th { background: #1d4ed8; color: #fff; padding: 0.45rem 0.7rem; text-align: left; font-weight: 600; }
+.markdown-body td { padding: 0.45rem 0.7rem; border-bottom: 1px solid #e2e8f0; color: #334155; }
+.markdown-body tr:nth-child(even) td { background: #f8fafc; }
+.markdown-body ul, .markdown-body ol { padding-left: 1.4rem; color: #475569; line-height: 1.8; margin-bottom: 0.7rem; font-size: 0.875rem; }
+.markdown-body li { margin-bottom: 0.2rem; }
+.markdown-body code { background: #eff6ff; padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.85em; color: #1d4ed8; }
+.markdown-body pre  { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 0.9rem 0; font-size: 0.85rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
