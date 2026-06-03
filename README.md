@@ -12,6 +12,8 @@
 | [`contract-review/`](./contract-review/) | 合同审查工具 | 条款风险审阅、规范审阅、主体识别，支持导出 Word 报告 |
 | [`tender-doc-parse/`](./tender-doc-parse/) | 招标文件解析工具 | 按 6 大模块并发抽取基础信息、资格要求、评审要求等结构化字段 |
 | [`financial-report-extract/`](./financial-report-extract/) | 财务三大表抽取工具 | 基于规则从财报 PDF 中提取资产负债表、利润表、现金流量表 |
+| [`national-standard-parse/`](./national-standard-parse/) | 国家标准书知识库解析 | 上传 GB/GB-T 标准文件，按章节切分高质量 chunk，含原文位置高亮与条款检索，作为 RAG 知识库样板 |
+| [`exam-extract/`](./exam-extract/) | 试卷题目智能抽取 | 上传 PDF/图片/Word 试卷，后端按 10 页一批送 LLM，SSE 实时推批次进度，输出题组结构与多格式导出 |
 
 ---
 
@@ -137,6 +139,48 @@ pip install -r requirements.txt && python main.py
 # 前端
 cd financial-report-extract/frontend
 npm install && npm start     # http://localhost:3000
+```
+
+---
+
+## national-standard-parse · 国家标准书知识库解析
+
+面向标准条款知识库 / RAG 检索场景。上传一份 GB/GB-T 标准 PDF 或 Word，后端调用 TextIn `pdf_to_markdown` 完成 OCR 后，立刻按 `outline_level` 切分章节级 chunk，前端三栏联动展示页面图、目录、Chunks、表格、图片、Markdown，任何一处选中都会在原图上高亮多边形定位。chunks 可一键导出 JSON，可直接喂给向量库建索引。`/api/extract` 留作 LLM 扩展口子（自动摘要、字段抽取等）。
+
+**技术栈**：Python + FastAPI · React + Vite · Tailwind CSS · TextIn 文档解析 · OpenAI 兼容接口（可选）
+
+**启动方式**：
+
+```bash
+# 后端
+cd national-standard-parse/backend
+cp ../.env.example ../.env  # 填入凭证
+pip install -r requirements.txt && python main.py
+
+# 前端
+cd national-standard-parse/frontend
+npm install && npm run dev   # http://localhost:5173
+```
+
+---
+
+## exam-extract · 试卷题目智能抽取
+
+面向题库入库 / 智能阅卷场景。上传 PDF / 图片 / Word 试卷，OCR 完成后后端按 10 页一批送 LLM，跨批次保留题组延续上下文（continues_previous + group_id 全卷连续），通过 SSE 把每一批进度实时推回前端。识别出的题组可一键导出 JSON / Markdown / CSV。
+
+**技术栈**：Python + FastAPI · React + Vite · Tailwind CSS · TextIn 文档解析 · OpenAI 兼容接口（默认 qwen-flash）
+
+**启动方式**：
+
+```bash
+# 后端
+cd exam-extract/backend
+cp ../.env.example ../.env  # 填入凭证
+pip install -r requirements.txt && python main.py
+
+# 前端
+cd exam-extract/frontend
+npm install && npm run dev   # http://localhost:5173
 ```
 
 ---
